@@ -1,0 +1,7 @@
+GOPATH=`pwd`/../../../..
+PATH=$GOPATH/bin:$PATH
+GOBIN=$GOPATH/bin
+
+export GOPATH
+export PATH
+export GOBIN
