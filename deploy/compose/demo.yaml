@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  demo_web:
+    image: ${REGISTRY_URL}/demo-web:${DEMO_WEB_VERSION}
+    container_name: demo_web
+    hostname: demo_web
+    restart: always
+    ports: ["80:80"]
+    networks: {compose_demo_net: {ipv4_address: 172.21.0.10}}
+    logging: {driver: "json-file", options: {max-size: "10m", max-file: "10"}}
+
+  demo_demo:
+    image: ${REGISTRY_URL}/demo-demo:${DEMO_DEMO_VERSION}
+    container_name: demo_demo
+    hostname: demo_demo
+    restart: always
+    environment:
+      - X=X
+    networks: {compose_demo_net: {ipv4_address: 172.21.0.11}}
+    logging: {driver: "json-file", options: {max-size: "10m", max-file: "10"}}
+#    command: bash -c "while :; do sleep 3; done"
+    command: demo
+
+networks:
+  compose_demo_net:
+    external: true

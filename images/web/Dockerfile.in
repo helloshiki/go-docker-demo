@@ -1,0 +1,9 @@
+FROM openresty/openresty:xenial
+
+MAINTAINER 329365307@qq.com
+
+RUN apt-get update && apt-get -y -qq install busybox vim-tiny
+
+COPY payload/config/conf.d /etc/nginx/conf.d
+ADD payload/dist /www/web
+

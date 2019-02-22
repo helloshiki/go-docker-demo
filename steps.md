@@ -73,4 +73,69 @@ devenv
 ➜  go-docker-demo git:(master) ✗ ls
 devenv  Gopkg.lock  Gopkg.toml  vendor
 ```
+## 下载依赖库
+```shell
+➜  go-docker-demo git:(master) ✗ dep ensure -v
+```
 
+# 制作镜像
+## 打包
+```shell
+➜  go-docker-demo git:(master) ✗ make clean && make docker  # 打包所有
+➜  go-docker-demo git:(master) ✗ make demo-docker-clean && make demo-docker  # 打包一个
+➜  go-docker-demo git:(master) ✗ sudo docker images | grep demo
+registry.cn-hangzhou.aliyuncs.com/tenbayblockchain/demo-demo       1.0.0               b4a1b08ee770        2 minutes ago       266MB
+```
+## 查看镜像内容是否正确 
+```shell
+➜  go-docker-demo git:(master) ✗ sudo docker run -it --rm --name zzz registry.cn-hangzhou.aliyuncs.com/tenbayblockchain/demo-demo:1.0.0 bash  
+root@fb6b71285925:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@fb6b71285925:/# which demo 
+/usr/bin/demo
+
+➜  compose git:(master) ✗ sudo docker run -it --rm --name zzz registry.cn-hangzhou.aliyuncs.com/tenbayblockchain/demo-web:1.0.0 bash  
+root@b0b49cd8a844:/# ls /www/web/
+index.html
+```
+
+# 运行
+## 启动数据库
+```shell
+➜  compose git:(master) ✗ pwd
+/home/sk/workspace/go-docker-demo/src/github.com/helloshiki/go-docker-demo/deploy/compose
+➜  compose git:(master) ✗ sudo docker-compose -f deps.yaml up -d
+Starting demo_mysql ... done
+➜  compose git:(master) ✗ sudo docker-compose -f deps.yaml ps    
+   Name                Command             State          Ports       
+----------------------------------------------------------------------
+demo_mysql   docker-entrypoint.sh mysqld   Up      3306/tcp, 33060/tcp
+```
+## 启动业务
+```shell
+➜  compose git:(master) ✗ sudo docker-compose -f deps.yaml ps    
+   Name                Command             State          Ports       
+----------------------------------------------------------------------
+demo_mysql   docker-entrypoint.sh mysqld   Up      3306/tcp, 33060/tcp
+➜  compose git:(master) ✗ sudo docker-compose -f demo.yaml up -d 
+Starting demo_demo ... done
+Starting demo_web  ... done
+➜  compose git:(master) ✗ sudo docker-compose -f demo.yaml ps    
+  Name                 Command               State         Ports       
+-----------------------------------------------------------------------
+demo_demo   demo                             Up      6060/tcp, 8088/tcp
+demo_web    /usr/local/openresty/bin/o ...   Up      0.0.0.0:80->80/tcp
+➜  compose git:(master) ✗ curl 'http://localhost:80/v1/greeting'
+{"hello":"world"}                                                                                                                                  
+➜  compose git:(master) ✗ curl 'http://localhost:80'            
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Hello, World!</h1>
+</body>
+</html>
+```

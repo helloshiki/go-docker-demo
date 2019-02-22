@@ -1,0 +1,25 @@
+FROM ubuntu:16.04
+
+MAINTAINER 329365307@qq.com
+
+RUN apt-get update && \
+    apt-get -y -qq upgrade && \
+    apt-get install tzdata && \
+    apt-get -y -qq install busybox mysql-client vim-tiny ca-certificates && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+ENV TZ=Asia/Shanghai \
+    MYSQL_RES='root:jiulian666@tcp(dice_mysql:3306)/dice?charset=utf8'
+
+# ACTOR_ACCOUNT
+# ACTOR_PRIVATE_KEY
+# CONTRACT_ACCOUNT
+# NODEOS_ADDR
+# MYSQL_RES
+
+EXPOSE 8088 6060
+
+COPY payload/_APP_NAME_ /usr/bin/
+
+CMD ["dice-serv"]
+

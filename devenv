@@ -1,4 +1,4 @@
-GOPATH=`pwd`/../../../..
+GOPATH=$(cd `pwd`/../../../.. && pwd)
 PATH=$GOPATH/bin:$PATH
 GOBIN=$GOPATH/bin
 
