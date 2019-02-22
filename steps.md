@@ -94,7 +94,7 @@ bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  s
 root@fb6b71285925:/# which demo 
 /usr/bin/demo
 
-➜  compose git:(master) ✗ sudo docker run -it --rm --name zzz registry.cn-hangzhou.aliyuncs.com/tenbayblockchain/demo-web:1.0.0 bash  
+➜  go-docker-demo git:(master) ✗ sudo docker run -it --rm --name zzz registry.cn-hangzhou.aliyuncs.com/tenbayblockchain/demo-web:1.0.0 bash  
 root@b0b49cd8a844:/# ls /www/web/
 index.html
 ```
