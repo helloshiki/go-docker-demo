@@ -139,3 +139,9 @@ demo_web    /usr/local/openresty/bin/o ...   Up      0.0.0.0:80->80/tcp
 </body>
 </html>
 ```
+
+# 电子书
+* Go轻松学: https://www.golang123.com/book/16
+* Go Web 编程: https://www.golang123.com/book/9
+* Go示例学: https://www.golang123.com/book/17
+* *Effective Go: https://www.kancloud.cn/kancloud/effective/72199
